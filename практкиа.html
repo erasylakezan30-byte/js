@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Project</title>
+
+<style>
+
+/* =========================
+ЖАЛПЫ СТИЛЬ
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* =========================
+NAVBAR
+========================= */
+
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    padding:18px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:1000;
+    transition:0.3s;
+}
+
+/* =========================
+5-ТАПСЫРМА
+Скролл кезінде navbar background өзгереді
+========================= */
+
+nav.scrolled{
+    background:rgba(0,0,0,0.8);
+    backdrop-filter:blur(8px);
+}
+
+nav ul{
+    display:flex;
+    gap:25px;
+    list-style:none;
+}
+
+nav a{
+    text-decoration:none;
+    color:white;
+    font-weight:bold;
+}
+
+/* =========================
+HERO SECTION
+========================= */
+
+.hero{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.register-btn{
+    margin-top:25px;
+    padding:14px 30px;
+    border:none;
+    border-radius:10px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+}
+
+/* =========================
+SECTION
+========================= */
+
+section{
+    padding:120px 50px;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:50px;
+    font-size:40px;
+}
+
+/* =========================
+1-ТАПСЫРМА
+АНИМАЦИЯЛАНҒАН КАРТОЧКАЛАР
+========================= */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:#1e293b;
+    border-radius:18px;
+    overflow:hidden;
+
+    /* hover анимациясын жұмсақ қылады */
+    transition:0.3s ease;
+
+    /* карточка алғашында көрінбейді */
+    opacity:0;
+
+    /* төмен орналасады */
+    transform:translateY(40px);
+
+    /* showCard анимациясы */
+    animation:showCard 0.6s forwards;
+}
+
+/* Карточкалардың кезекпен шығуы */
+
+.card:nth-child(1){
+    animation-delay:0.1s;
+}
+
+.card:nth-child(2){
+    animation-delay:0.2s;
+}
+
+.card:nth-child(3){
+    animation-delay:0.3s;
+}
+
+.card:nth-child(4){
+    animation-delay:0.4s;
+}
+
+/* =========================
+1-ТАПСЫРМА
+Карточка hover кезінде жоғары көтеріледі
+========================= */
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+/* Карточка пайда болу анимациясы */
+
+@keyframes showCard{
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+.card-image{
+    height:220px;
+    overflow:hidden;
+}
+
+.card-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+
+    /* сурет үлкейгенде жұмсақ болады */
+    transition:0.3s;
+}
+
+/* =========================
+1-ТАПСЫРМА
+Сурет hover кезінде үлкейеді
+========================= */
+
+.card-image:hover img{
+    transform:scale(1.04);
+}
+
+.card-content{
+    padding:20px;
+}
+
+.price{
+    margin:15px 0;
+    color:#38bdf8;
+}
+
+.card button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+}
+
+/* =========================
+1-ТАПСЫРМА
+Bounce анимациясы
+========================= */
+
+@keyframes bounce{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.1);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
+/* Батырма басылғанда bounce іске қосылады */
+
+.card button:active{
+    animation:bounce 0.4s;
+}
+
+/* =========================
+2-ТАПСЫРМА
+МОДАЛЬ ТЕРЕЗЕ
+========================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.7);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:0.3s;
+}
+
+/* active болса модаль көрінеді */
+
+.modal-overlay.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.modal{
+    background:#1e293b;
+    width:90%;
+    max-width:500px;
+    border-radius:20px;
+    padding:30px;
+
+    transform:scale(0.85);
+    opacity:0;
+}
+
+/* =========================
+2-ТАПСЫРМА
+Модаль ашылу анимациясы
+========================= */
+
+.modal.active{
+    animation:modalOpen 280ms forwards;
+}
+
+@keyframes modalOpen{
+
+    from{
+        transform:scale(0.85);
+        opacity:0;
+    }
+
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+
+}
+
+/* =========================
+2-ТАПСЫРМА
+Модаль жабылу анимациясы
+========================= */
+
+.modal.close{
+    animation:modalClose 200ms forwards;
+}
+
+@keyframes modalClose{
+
+    from{
+        transform:scale(1);
+        opacity:1;
+    }
+
+    to{
+        transform:scale(0.9);
+        opacity:0;
+    }
+
+}
+
+/* =========================
+3-ТАПСЫРМА
+ФОРМА
+========================= */
+
+form{
+    max-width:600px;
+    margin:auto;
+}
+
+.input-group{
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:2px solid transparent;
+    outline:none;
+}
+
+/* =========================
+3-ТАПСЫРМА
+Қате болса border қызарады
+========================= */
+
+input.error{
+    border-color:red;
+}
+
+/* Қате мәтіні */
+
+.error-text{
+    color:#ff6b6b;
+    margin-top:5px;
+    font-size:14px;
+
+    /* анимация */
+    animation:fadeIn 0.3s;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(-5px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+.submit-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#22c55e;
+    color:white;
+    cursor:pointer;
+}
+
+/* =========================
+3-ТАПСЫРМА
+TOAST ХАБАРЛАМА
+========================= */
+
+.toast{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+
+    background:#22c55e;
+    padding:16px 24px;
+    border-radius:10px;
+
+    opacity:0;
+    transform:translateY(50px);
+
+    transition:0.4s;
+}
+
+/* Toast пайда болады */
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* =========================
+4-ТАПСЫРМА
+FAQ + PROGRESS BAR
+========================= */
+
+.progress-container{
+    width:100%;
+    height:12px;
+    background:#334155;
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:40px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#38bdf8;
+    transition:0.4s;
+}
+
+.faq-item{
+    background:#1e293b;
+    margin-bottom:15px;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.faq-question{
+    padding:20px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* =========================
+4-ТАПСЫРМА
+max-height trick
+Жауап жабық кезде
+========================= */
+
+.faq-answer{
+    max-height:0;
+    overflow:hidden;
+
+    transition:max-height 0.4s ease;
+
+    padding:0 20px;
+}
+
+/* =========================
+4-ТАПСЫРМА
+Жауап ашылған кезде
+========================= */
+
+.faq-item.active .faq-answer{
+    max-height:200px;
+    padding:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+NAVBAR
+========================= -->
+
+<nav id="navbar">
+
+    <h2>Portfolio</h2>
+
+    <ul>
+        <li><a href="#home">Бас бет</a></li>
+        <li><a href="#projects">Жобалар</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Байланыс</a></li>
+    </ul>
+
+</nav>
+
+<!-- =========================
+HOME
+========================= -->
+
+<section class="hero" id="home">
+
+    <h1>Modern Portfolio</h1>
+
+    <!-- =========================
+    2-ТАПСЫРМА
+    Модаль ашатын батырма
+    ========================= -->
+
+    <button class="register-btn" id="openModal">
+        Тіркелу
+    </button>
+
+</section>
+
+<!-- =========================
+1-ТАПСЫРМА
+КАРТОЧКАЛАР
+========================= -->
+
+<section id="projects">
+
+    <h2 class="section-title">Жобалар</h2>
+
+    <div class="products">
+
+        <div class="card">
+
+            <div class="card-image">
+                <img src="https://picsum.photos/400/300?1">
+            </div>
+
+            <div class="card-content">
+
+                <h3>Gaming PC</h3>
+
+                <p class="price">450 000 ₸</p>
+
+                <!-- Модаль ашатын батырма -->
+
+                <button class="details-btn">
+                    Толығырақ
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-image">
+                <img src="https://picsum.photos/400/300?2">
+            </div>
+
+            <div class="card-content">
+
+                <h3>Keyboard</h3>
+
+                <p class="price">35 000 ₸</p>
+
+                <button class="details-btn">
+                    Толығырақ
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-image">
+                <img src="https://picsum.photos/400/300?3">
+            </div>
+
+            <div class="card-content">
+
+                <h3>Monitor</h3>
+
+                <p class="price">120 000 ₸</p>
+
+                <button class="details-btn">
+                    Толығырақ
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-image">
+                <img src="https://picsum.photos/400/300?4">
+            </div>
+
+            <div class="card-content">
+
+                <h3>Mouse</h3>
+
+                <p class="price">18 000 ₸</p>
+
+                <button class="details-btn">
+                    Толығырақ
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+4-ТАПСЫРМА
+FAQ
+========================= -->
+
+<section id="faq">
+
+    <h2 class="section-title">FAQ</h2>
+
+    <!-- Прогресс жолақ -->
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="faq-item">
+
+        <div class="faq-question">
+            HTML деген не?
+        </div>
+
+        <div class="faq-answer">
+            HTML — веб бет құрылымы.
+        </div>
+
+    </div>
+
+    <div class="faq-item">
+
+        <div class="faq-question">
+            CSS не үшін керек?
+        </div>
+
+        <div class="faq-answer">
+            CSS дизайн үшін қолданылады.
+        </div>
+
+    </div>
+
+    <div class="faq-item">
+
+        <div class="faq-question">
+            JavaScript не істейді?
+        </div>
+
+        <div class="faq-answer">
+            JavaScript интерактив береді.
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+3-ТАПСЫРМА
+ФОРМА
+========================= -->
+
+<section id="contact">
+
+    <h2 class="section-title">Байланыс</h2>
+
+    <form id="registerForm">
+
+        <div class="input-group">
+
+            <input type="text" id="name"
+            placeholder="Аты-жөні">
+
+            <div class="error-text"
+            id="nameError"></div>
+
+        </div>
+
+        <div class="input-group">
+
+            <input type="email" id="email"
+            placeholder="Email">
+
+            <div class="error-text"
+            id="emailError"></div>
+
+        </div>
+
+        <div class="input-group">
+
+            <input type="password" id="password"
+            placeholder="Пароль">
+
+            <div class="error-text"
+            id="passwordError"></div>
+
+        </div>
+
+        <div class="input-group">
+
+            <input type="password"
+            id="confirmPassword"
+            placeholder="Пароль қайталау">
+
+            <div class="error-text"
+            id="confirmError"></div>
+
+        </div>
+
+        <button class="submit-btn">
+            Жіберу
+        </button>
+
+    </form>
+
+</section>
+
+<!-- =========================
+2-ТАПСЫРМА
+МОДАЛЬ
+========================= -->
+
+<div class="modal-overlay" id="modalOverlay">
+
+    <div class="modal" id="modal">
+
+        <h2>Тіркелу</h2>
+
+        <p style="margin-top:20px;">
+            Бұл модаль терезесі
+        </p>
+
+    </div>
+
+</div>
+
+<!-- =========================
+3-ТАПСЫРМА
+TOAST
+========================= -->
+
+<div class="toast" id="toast">
+    Тіркелу сәтті аяқталды!
+</div>
+
+<script>
+
+/* =========================
+5-ТАПСЫРМА
+Navbar scroll кезінде өзгереді
+========================= */
+
+window.addEventListener("scroll",()=>{
+
+    const navbar =
+    document.getElementById("navbar");
+
+    /* Егер scroll 50px асса */
+    if(window.scrollY > 50){
+
+        navbar.classList.add("scrolled");
+
+    }else{
+
+        navbar.classList.remove("scrolled");
+
+    }
+
+});
+
+/* =========================
+2-ТАПСЫРМА
+МОДАЛЬ
+========================= */
+
+const modalOverlay =
+document.getElementById("modalOverlay");
+
+const modal =
+document.getElementById("modal");
+
+/* Модаль ашу */
+
+function openModal(){
+
+    /* overlay көрсету */
+    modalOverlay.classList.add("active");
+
+    /* ашылу анимациясы */
+    modal.classList.add("active");
+
+    /* body scroll тоқтайды */
+    document.body.style.overflow="hidden";
+
+}
+
+/* Модаль жабу */
+
+function closeModal(){
+
+    modal.classList.remove("active");
+
+    modal.classList.add("close");
+
+    setTimeout(()=>{
+
+        modalOverlay.classList.remove("active");
+
+        /* scroll қайта қосылады */
+        document.body.style.overflow="auto";
+
+    },200);
+
+}
+
+/* Тіркелу батырмасы */
+
+document.getElementById("openModal")
+.addEventListener("click",openModal);
+
+/* Толығырақ батырмалары */
+
+document.querySelectorAll(".details-btn")
+.forEach(btn=>{
+
+    btn.addEventListener("click",openModal);
+
+});
+
+/* Overlay басқанда жабылады */
+
+modalOverlay.addEventListener("click",(e)=>{
+
+    if(e.target===modalOverlay){
+
+        closeModal();
+
+    }
+
+});
+
+/* Escape пернесі */
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+
+        closeModal();
+
+    }
+
+});
+
+/* =========================
+3-ТАПСЫРМА
+ФОРМА ВАЛИДАЦИЯСЫ
+========================= */
+
+const form =
+document.getElementById("registerForm");
+
+form.addEventListener("submit",function(e){
+
+    /* Бетті refresh қылмайды */
+    e.preventDefault();
+
+    let valid=true;
+
+    const name =
+    document.getElementById("name");
+
+    const email =
+    document.getElementById("email");
+
+    const password =
+    document.getElementById("password");
+
+    const confirmPassword =
+    document.getElementById("confirmPassword");
+
+    clearErrors();
+
+    /* =========================
+    Аты тексеру
+    минимум 2 символ
+    ========================= */
+
+    if(name.value.trim().length < 2){
+
+        showError(
+            name,
+            "nameError",
+            "Минимум 2 символ керек"
+        );
+
+        valid=false;
+
+    }
+
+    /* =========================
+    Email regex тексеру
+    ========================= */
+
+    const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if(!emailRegex.test(email.value)){
+
+        showError(
+            email,
+            "emailError",
+            "Email дұрыс емес"
+        );
+
+        valid=false;
+
+    }
+
+    /* =========================
+    Пароль тексеру
+    8 символ + 1 сан
+    ========================= */
+
+    const passwordRegex =
+    /^(?=.*\d).{8,}$/;
+
+    if(!passwordRegex.test(password.value)){
+
+        showError(
+            password,
+            "passwordError",
+            "Пароль қате"
+        );
+
+        valid=false;
+
+    }
+
+    /* =========================
+    Парольдерді салыстыру
+    ========================= */
+
+    if(password.value !==
+    confirmPassword.value){
+
+        showError(
+            confirmPassword,
+            "confirmError",
+            "Пароль сәйкес емес"
+        );
+
+        valid=false;
+
+    }
+
+    /* =========================
+    Егер бәрі дұрыс болса
+    Toast шығады
+    ========================= */
+
+    if(valid){
+
+        const toast =
+        document.getElementById("toast");
+
+        toast.classList.add("show");
+
+        setTimeout(()=>{
+
+            toast.classList.remove("show");
+
+        },3000);
+
+        form.reset();
+
+    }
+
+});
+
+/* Қате шығару функциясы */
+
+function showError(input,errorId,message){
+
+    /* input border қызарады */
+    input.classList.add("error");
+
+    /* error текст */
+    document.getElementById(errorId)
+    .innerText=message;
+
+}
+
+/* Қателерді тазалау */
+
+function clearErrors(){
+
+    document.querySelectorAll("input")
+    .forEach(input=>{
+
+        input.classList.remove("error");
+
+    });
+
+    document.querySelectorAll(".error-text")
+    .forEach(error=>{
+
+        error.innerText="";
+
+    });
+
+}
+
+/* =========================
+4-ТАПСЫРМА
+FAQ ACCORDION
+========================= */
+
+const faqItems =
+document.querySelectorAll(".faq-item");
+
+faqItems.forEach((item,index)=>{
+
+    item.querySelector(".faq-question")
+    .addEventListener("click",()=>{
+
+        /* Бір уақытта тек біреуі ашық */
+
+        faqItems.forEach(other=>{
+
+            if(other !== item){
+
+                other.classList.remove("active");
+
+            }
+
+        });
+
+        /* active қосу */
+        item.classList.toggle("active");
+
+        updateProgress();
+
+        saveFAQ();
+
+    });
+
+});
+
+/* =========================
+4-ТАПСЫРМА
+PROGRESS BAR
+========================= */
+
+function updateProgress(){
+
+    /* Ашық FAQ саны */
+
+    const opened =
+    document.querySelectorAll(
+        ".faq-item.active"
+    ).length;
+
+    const total = faqItems.length;
+
+    /* Процент есептеу */
+
+    const percent =
+    (opened / total) * 100;
+
+    /* width өзгерту */
+
+    document.getElementById("progressBar")
+    .style.width = percent + "%";
+
+}
+
+/* =========================
+4-ТАПСЫРМА
+LOCAL STORAGE
+========================= */
+
+/* FAQ сақтау */
+
+function saveFAQ(){
+
+    const activeIndexes=[];
+
+    faqItems.forEach((item,index)=>{
+
+        if(item.classList.contains("active")){
+
+            activeIndexes.push(index);
+
+        }
+
+    });
+
+    localStorage.setItem(
+        "activeFAQ",
+        JSON.stringify(activeIndexes)
+    );
+
+}
+
+/* FAQ жүктеу */
+
+function loadFAQ(){
+
+    const saved =
+    JSON.parse(
+        localStorage.getItem("activeFAQ")
+    );
+
+    if(saved){
+
+        saved.forEach(index=>{
+
+            faqItems[index]
+            .classList.add("active");
+
+        });
+
+    }
+
+    updateProgress();
+
+}
+
+/* Бет ашылғанда loadFAQ іске қосылады */
+
+loadFAQ();
+
+</script>
+
+</body>
+</html>
